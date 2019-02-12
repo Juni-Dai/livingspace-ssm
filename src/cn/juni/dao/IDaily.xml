@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.juni.dao.IDaily">
+	
+	<select id="queryAllDaily" resultType="daily">
+		select did,title,context,recorded,pic,uid,createtime from daily
+	</select>
+	
+	<select id="queryAllDailyByPage" parameterType="int" resultType="daily">
+		select did,title,context,recorded,pic,uid,createtime from daily limit #{arg0},#{arg1}
+	</select>
+	
+	<select id="queryCount" resultType="int">
+		select count(1) from daily
+	</select>
+	
+	<insert id="insertDaily" parameterType="daily">
+		insert into daily(title,context,recorded,uid,createtime) values(#{title},#{context},#{records},#{uid},#{createtime})
+	</insert>
+	
+	<select id="queryDescById" parameterType="int" resultType="daily">
+		select did,title,context,recorded,pic,uid,createtime from daily where did=#{did}
+	</select>
+	
+	<delete id="deleteDailyById" parameterType="java.lang.String">
+		delete from daily where did in
+		<foreach collection="array" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+</mapper>

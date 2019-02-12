@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        ">
+        
+        <context:component-scan base-package="cn.juni.service.impl"></context:component-scan>
+        
+        <!-- 1、配置数据源 -->
+        	<!-- 1.1 配置外部引入文件 -->
+        	<context:property-placeholder location="classpath:db.properties"/>
+        	<!-- 1.2配置数据源 -->
+        	<bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        		<!-- 配置参数 -->
+        		<property name="driverClassName" value="${jdbc.driver}"></property>
+        		<property name="url" value="${jdbc.url}"></property>
+        		<property name="username" value="${jdbc.username}"></property>
+        		<property name="password" value="${jdbc.password}"></property>
+        	</bean>
+        	
+        	<!-- 1.3 配置事务 -->
+        	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        		<!-- 注入数据源 -->
+        		<property name="dataSource" ref="ds"></property>
+        	</bean>
+        	<!-- 1.4 配置事务管理策略 -->
+        	<tx:advice id="txAdvice" transaction-manager="txManager">
+        		<tx:attributes>
+        			<tx:method name="query*" read-only="true"/>
+        			<tx:method name="find*" read-only="true"/>
+        			<tx:method name="insert*" propagation="REQUIRED"/>
+        			<tx:method name="delete*" propagation="REQUIRED"/>
+        			<tx:method name="update*" propagation="REQUIRED"/>
+        		</tx:attributes>
+        	</tx:advice>
+        	<!-- 1.5 织入事务 -->
+        	
+        	<aop:config>
+        	<!-- 
+        	* cn.juni.service.impl.*ServiceImpl.*(..)
+        	 -->
+        		<aop:pointcut expression="execution(* cn.juni.service..*(..))" id="pointCut"/>
+        		<aop:advisor advice-ref="txAdvice" pointcut-ref="pointCut"/>
+        	</aop:config>
+        	
+        	<!-- 2.1 引入mybatis配置文件 创建SqlSessionFactory对象-->
+        	<bean id="ssf" class="org.mybatis.spring.SqlSessionFactoryBean">
+        		<property name="configLocation" value="classpath:sqlMapperConfig.xml"></property>
+        		<property name="dataSource" ref="ds"></property>
+        	</bean>
+        	<!-- 2.2 创建代理对象 -指定mapper接口所在包
+        		MapperScannerConfigurer 批量配置
+        	 -->
+        	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        		<!-- 指定所在的包 -->
+        		<property name="basePackage" value="cn.juni.dao"></property>
+        		<property name="sqlSessionFactoryBeanName" value="ssf"></property>
+        	</bean>
+</beans>
