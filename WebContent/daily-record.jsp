@@ -114,7 +114,8 @@
 				var daily = "{\"title\":\"" + uname + "\",\"context\":\"" + context +"\",\"records\":\""+ records +"\",\"imgAddress\":\""+imgAddress+"\"}";
 				$.ajax({
 					method:'POST',
-					url:"dailyAddServlet",
+					url:"dailyAdd",
+					dataType:"json",
 					contentType:"application/x-www-form-urlencoded; charset=UTF-8",
 					data:{"daily":daily},
 					success:function(){
@@ -123,7 +124,7 @@
 			                var index = parent.layer.getFrameIndex(window.name);
 			                //关闭当前frame
 			                parent.layer.close(index);
-			                window.parent.location.href = "dailyListServlet?pageIndex=1";
+			                window.parent.location.href = "dailyList?pageIndex=1&pageSize=5";
 						});
 					},
 					error:function(){
@@ -137,7 +138,7 @@
 			//多图片上传
 			  upload.render({
 			    elem: '#upload'
-			   ,url: 'dailyAddServlet'
+			   ,url: 'dailyAdd'
 			    ,multiple: true
 			    ,before: function(obj){
 			      //预读本地文件示例，不支持ie8

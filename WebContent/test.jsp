@@ -7,6 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-<a href="queryAllDaily">show</a>
+	<form action="login">
+            <input name="uname" placeholder="用户名"  type="text"  class="layui-input" >
+            <hr class="hr15">
+            <input name="upwd" placeholder="密码"  type="password" class="layui-input">
+            <hr class="hr15">
+            <input value="登录"  style="width:100%;" type="submit">
+            <hr class="hr20" >
+        </form>
 </body>
 </html>

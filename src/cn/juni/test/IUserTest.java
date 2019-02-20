@@ -24,8 +24,8 @@ public class IUserTest {
 			factory = new SqlSessionFactoryBuilder().build(inputStream);
 			session = factory.openSession();
 			IUser iUser = session.getMapper(IUser.class);
-			User user = iUser.login("Juni","7777777");
-			System.out.println(user);
+//			User user = iUser.login("Juni","7777777");
+//			System.out.println(user);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

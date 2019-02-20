@@ -9,7 +9,10 @@ public class User {
 	private int role;				//用户角色 0管理员 1普通用户
 	
 	public User() {}
-
+	public User(String uname,String upwd) {
+		this.uname = uname;
+		this.upwd = upwd;
+	}
 	public User(int uid, String uname, String upwd, int state, int role) {
 		this.uid = uid;
 		this.uname = uname;

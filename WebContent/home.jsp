@@ -75,9 +75,21 @@
     	$(function(){
     		$(".row div").on("click",function(){
     			var cls = $(this).attr("class");
-    			location.href = "homeServlet?action="+cls;
+    			if(cls == 'show'){
+    				dataRequest("dailyList");
+    			}
     		})
     	})
+    	
+    	function dataRequest(url){
+    		$.ajax({
+    			url:url,
+    			data:{"pageIndex":1,"pageSize":5},
+    			success:function(data){
+    				console.log(data)
+    			}
+    		})
+    	}
     </script>
 </body>
 </html>

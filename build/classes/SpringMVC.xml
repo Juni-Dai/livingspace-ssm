@@ -22,7 +22,18 @@
         
         <!-- 配置视图解析器 -->
         <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        	<property name="prefix" value="/WEB-INF/"></property>
+        	<property name="prefix" value="/"></property>
         	<property name="suffix" value=".jsp"></property>
         </bean>
+        
+        <mvc:annotation-driven>
+        
+        <!-- 
+        	No converter found for return value of type: class com.alibaba.fastjson.JSONObject
+        	如果是使用 XML 的方式配置 Spring MVC 的话，只需在 Spring MVC 的 XML 配置文件中加入下面配置即可 
+        -->
+	    <mvc:message-converters>
+	        <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter"/>      
+	    </mvc:message-converters>
+		</mvc:annotation-driven>
 </beans>

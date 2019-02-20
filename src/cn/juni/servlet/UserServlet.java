@@ -50,7 +50,7 @@ public class UserServlet extends HttpServlet {
 		String uname = jsonObject.getString("uname");
 		String upwd = jsonObject.getString("upwd");
 		
-		User user = iUser.login(uname,upwd);
+		User user = iUser.login(new User(uname,upwd));
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		session.setAttribute("user", user);

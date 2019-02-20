@@ -4,5 +4,5 @@ import cn.juni.pojo.User;
 
 public interface IUser {
 
-	public User login(String uname ,String pwd);
+	public User login(User user);
 }

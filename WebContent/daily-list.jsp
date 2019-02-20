@@ -80,7 +80,7 @@
 			           	<td>${user.uname }</td>
 			           	<td><fmt:formatDate value="${daily.createtime }" pattern="yyy-MM-dd HH:mm:ss"/></td>
 			            <td class="td-manage">
-			              <a title="查看"  onclick="x_admin_show('查看','dailyDescServlet?did=${daily.did}')" href="javascript:;">
+			              <a title="查看"  onclick="x_admin_show('查看','dailyDesc?did=${daily.did}')" href="javascript:;">
 			                <i class="layui-icon">&#xe642;</i>
 			              </a>
 			              <a title="删除" onclick="member_del(this,${daily.did })" href="javascript:;">
@@ -95,18 +95,18 @@
       <div class="page">
         <div>
           <c:if test="${dailyCustom.dailyList.size()>0 }">
-          	<a class="prev" <c:if test="${dailyCustom.pageIndex != 1 }">href="dailyListServlet?pageIndex=${dailyCustom.pageIndex-1}"</c:if>>&lt;&lt;</a>
+          	<a class="prev" <c:if test="${dailyCustom.pageIndex != 1 }">href="dailyList?pageIndex=${dailyCustom.pageIndex-1}&pageSize=${dailyCustom.pageSize}"</c:if>>&lt;&lt;</a>
           	
           	<c:forEach begin="0" end="${dailyCustom.pageTotal-1 }" varStatus="list">
           		<c:if test="${dailyCustom.pageIndex==list.index+1 }">
           			<span class="current">${list.index+1}</span>
           		</c:if>
           		<c:if test="${dailyCustom.pageIndex!=list.index+1 }">
-					<a class="num" href="dailyListServlet?pageIndex=${list.index+1}" >${list.index+1}</a>
+					<a class="num" href="dailyList?pageIndex=${list.index+1}&pageSize=${dailyCustom.pageSize}" >${list.index+1}</a>
 				</c:if>
           		
           	</c:forEach>
-          	<a class="next" <c:if test="${dailyCustom.pageIndex!=dailyCustom.pageTotal }">href="dailyListServlet?pageIndex=${dailyCustom.pageIndex+1}"</c:if>>&gt;&gt;</a>
+          	<a class="next" <c:if test="${dailyCustom.pageIndex!=dailyCustom.pageTotal }">href="dailyList?pageIndex=${dailyCustom.pageIndex+1}&pageSize=${dailyCustom.pageSize}"</c:if>>&gt;&gt;</a>
           </c:if>
         </div>
       </div>
@@ -158,15 +158,16 @@
               //发异步删除数据
               $.ajax({
             	  method:"post",
-            	  url:"dailyDelServlet",
+            	  url:"dailyDel",
             	  data:{"delId":id},
             	  success:function(data){
             		  //
+            		  console.log(data);
             	  }
               });
               $(obj).parents("tr").remove();
               layer.msg('已删除!',{icon:1,time:1000},function(){
-            	  window.parent.location.href = "dailyListServlet?pageIndex=1";
+            	  window.parent.location.href = "dailyList?pageIndex=1&pageSize=5";
               });
           });
       }
@@ -181,7 +182,7 @@
         	
             //捉到所有被选中的，发异步进行删除
              $.ajax({
-            	  url:"dailyDelServlet",
+            	  url:"dailyDel",
             	  data:{"delId":data},
             	  method:"post",
             	  traditional:true,
@@ -191,11 +192,13 @@
             	  }
               });
             layer.msg('删除成功', {icon: 1},function(){
-            	window.parent.location.href = "dailyListServlet?pageIndex=1";
+            	window.parent.location.href = "dailyList?pageIndex=1&pageSize=5";
             });
             $(".layui-form-checked").not('.header').parents('tr').remove();
         });
       }
+      
+      
     </script>
   </body>
 

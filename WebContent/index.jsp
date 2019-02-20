@@ -57,7 +57,7 @@
 	</div>
 	<!-- 中间主体部分 -->
 	<div style="width: 100%; position: absolute; top: 36px; bottom: 0;">
-		<iframe src='./home.jsp' frameborder="0" width="100%" height="100%"
+		<iframe src='dailyList?pageIndex=1&pageSize=5' frameborder="0" width="100%" height="100%"
 			class="x-iframe"></iframe>
 	</div>
 	<!-- 右侧主体结束 -->
